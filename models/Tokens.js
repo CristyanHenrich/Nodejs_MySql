@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('./db');
 
-const User = db.define('tokens', {
+const Tokens = db.define('tokens', {
     ID: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -14,10 +14,12 @@ const User = db.define('tokens', {
     }
 });
 
+
+
 //Criar a tabela tokens caso ela nao exita
 //User.sync();
 
 //Verifica se a tabela do sequelize esta diferente da tabela conecatada e adiciona ou modifica a tabela completando-a
 //User.sync({ alter: true })
 
-module.exports = User;
+module.exports = Tokens;

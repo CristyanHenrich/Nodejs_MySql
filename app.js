@@ -1,17 +1,43 @@
 const express = require('express');
 const app = express();
-const User = require('./models/User');
+const Tokens = require('./models/Tokens');
 
 app.use(express.json());
 
-app.get("/", async (req, res) =>{
-    res.send("Pagina inicial nodemon");
+//Listo todos os tokens cadastrados no banco de dados
+app.post("/atualizar", async (req, res) =>{
+    const tokens = await Tokens.findByPk(1);
+    //console.log(tokens);
+    tokens.TOKEN = req.body.TOKEN;
+     
+    await tokens.save()
+    .then(() => {
+        return res.json({
+            erro: false,
+            mensagem: "Token atualizado com sucesso!"
+        })
+    }).catch(() => {
+        return res.Status(400).json({
+            erro: true,
+            mensagem: "Erro token nao foi atualizado!"
+        })
+    });
+
 });
 
+//Listo todos os tokens cadastrados no banco de dados
+app.get("/listar", async (req, res) =>{
+
+    const tokens = await Tokens.findAll();
+    console.log(tokens);
+
+    res.send(tokens);
+});
+
+//Cadastro um novo token no banco de dados enviando em um JSON
 app.post("/cadastrar", async (req, res) =>{
     //console.log(req.body);
-
-    await User.create(req.body)
+    await Tokens.create(req.body)
     .then(() => {
         return res.json({
             erro: false,
